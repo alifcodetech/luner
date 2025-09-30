@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			}
 
 			// Regular user
-			header('Location: user.php');
+			header('Location: user/index.php');
 			exit;
 		}
 	}

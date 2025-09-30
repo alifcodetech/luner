@@ -1,12 +1,11 @@
-<?php require_once __DIR__ . '/db.php'; ?>
-<?php
+<?php require_once __DIR__ . '/../db.php';
 if (!isset($_SESSION['user_id'])) {
-	header('Location: login.php');
-	exit;
+  header('Location: login.php');
+  exit;
 }
 
 // Config: Admin account info to show for payment
-$adminAccountName = 'Alif Invest Ltd.';
+$adminAccountName = 'Luner Traders.';
 $adminAccountNumber = '1234567890';
 $adminBank = 'Bank of Example';
 
@@ -39,7 +38,7 @@ if (!$transaction) {
 
 if (!$transaction) {
 	// No pending transaction, redirect back
-	header('Location: user.php');
+	header('Location: index.php');
 	exit;
 }
 
@@ -70,27 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_txn'])) {
 	}
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Payment Instructions - Alif Invest</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-    <header class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">Alif Invest</a>
-            <nav class="ms-auto">
-                <a href="user.php" class="btn btn-sm btn-outline-secondary me-2">Back to Dashboard</a>
-                <a href="logout.php" class="btn btn-sm btn-outline-secondary">Logout</a>
-            </nav>
-        </div>
-    </header>
+  <?php include 'header.php'; ?>
 
-	<main class="section">
+
+<body>
+  <?php include 'sidebar.php'; ?>
+
+ <div class="content p-4">
 		<div class="container">
             <h2 class="mb-3">Complete Your Payment</h2>
             <div class="card p-3 mb-3">
@@ -124,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_txn'])) {
 
 			<p style="opacity:0.8;">Status: <strong><?php echo htmlspecialchars(ucfirst($transaction['status'])); ?></strong></p>
 		</div>
-	</main>
+ </div>
 
     <footer class="footer py-3 mt-4 bg-light">
         <div class="container"><p class="mb-0">© <?php echo date('Y'); ?> Alif Invest.</p></div>
