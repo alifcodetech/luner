@@ -127,6 +127,11 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
                 $stmt->bind_param('idsi', $payoutUserId, $payoutAmount, $payoutNote, $createdBy);
                 $stmt->execute();
                 $stmt->close();
+                $stmt = $mysqli->prepare('update withdrawal SET status = "approved" WHERE user_id = ? and status = "pending"');
+                $status = 'approved';
+                $stmt->bind_param('i', $payoutUserId);
+                $stmt->execute();
+                $stmt->close();
                 $payoutSuccessMsg = 'Payout recorded successfully.';
             }
         }
@@ -574,10 +579,6 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
                                 </div>
                             <?php endwhile; ?>
                         </div>
-
-                        <div class="list-footer">
-                            <a href="#payouts" class="btn-ghost">View All</a>
-                        </div>
                     </div>
 
                     <div class="col">
@@ -622,6 +623,47 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
                     </div>
                 </div>
             </section>
+
+               <!-- Withdrawals (as table) -->
+<section id="payouts" class="card" aria-labelledby="payouts-title">
+    <h2 id="payouts-title" class="section-title">Recent Withdrawals</h2>
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $qP = "SELECT withdrawal.id, withdrawal.amount, withdrawal.status, users.username, users.email 
+                                   FROM withdrawal 
+                                   LEFT JOIN users ON withdrawal.user_id = users.id 
+                                   WHERE withdrawal.status = 'pending'
+                                   ORDER BY withdrawal.id DESC 
+                                   LIMIT 50";
+                            $resP = $mysqli->query($qP);
+                            while ($rowP = $resP->fetch_assoc()):
+                        ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($rowP['username']); ?></td>
+                                <td><?php echo htmlspecialchars($rowP['email']); ?></td>
+                                <td><strong>$<?php echo number_format((float)$rowP['amount'], 2); ?></strong></td>
+                                <td><?php echo htmlspecialchars($rowP['status']); ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>                  
+    </div>
+</section>
+
 
             <!-- PLANS (create + scrollable list of existing plans) -->
             <section id="plans" class="card" aria-labelledby="plans-title">
@@ -691,9 +733,6 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
                                 </tbody>
                             </table>
                         </div>
-                        <div class="list-footer">
-                            <a href="#plans" class="btn-ghost">View All</a>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -737,9 +776,6 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
                             <?php endwhile; ?>
                         </tbody>
                     </table>
-                </div>
-                <div style="margin-top:10px; text-align:right;">
-                    <a href="#transactions" class="btn-ghost">View All</a>
                 </div>
             </section>
 
