@@ -20,3 +20,20 @@ $latestTxn = null; {
     $latestTxn = $res->fetch_assoc();
     $stmt->close();
 }
+
+
+
+function requireApprovedTransaction($mysqli) {
+    $userId = (int)$_SESSION['user_id'];
+  
+    $stmt = $mysqli->prepare("SELECT id FROM transactions WHERE user_id=? AND status='approved' LIMIT 1");
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+  
+    if ($result->num_rows === 0) {
+        echo "<script>alert('You don\'t have any approved transaction.'); window.location.href = 'profit.php';</script>";
+    }
+
+}

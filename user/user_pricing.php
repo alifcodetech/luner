@@ -20,6 +20,7 @@ if ($tid > 0) {
 	$stmt->execute();
 	$res = $stmt->get_result();
 	$transaction = $res->fetch_assoc();
+
 	$stmt->close();
 }
 
@@ -48,6 +49,7 @@ $errorMsg = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_txn'])) {
 	$enteredTxnId = trim($_POST['transaction_id'] ?? '');
 	$enteredAmountRaw = trim($_POST['investment_amount'] ?? '');
+ 
 	$enteredAmount = is_numeric($enteredAmountRaw) ? (float)$enteredAmountRaw : 0.0;
 	if ($enteredTxnId === '') {
 		$errorMsg = 'Please enter your transaction ID.';
@@ -95,9 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_txn'])) {
                 <h3 class="mt-0">Submit Transaction ID</h3>
                 <form method="post">
 					<input type="hidden" name="submit_txn" value="1" />
+					<input type="hidden" name="investment_amount" value="<?php echo isset($transaction['plan_amount']) ? number_format((float)$transaction['plan_amount'], 2, '.', '') : ''; ?>" />
 					<div>
 						<label for="investment_amount">Investment Amount</label>
-                        <input class="form-control" id="investment_amount" name="investment_amount" type="number" step="0.01" min="0" required value="<?php echo isset($transaction['plan_amount']) ? number_format((float)$transaction['plan_amount'], 2, '.', '') : ''; ?>" />
+                        <input class="form-control" id="investment_amount" disabled type="number" step="0.01" min="0" required value="<?php echo isset($transaction['plan_amount']) ? number_format((float)$transaction['plan_amount'], 2, '.', '') : ''; ?>" />
 					</div>
 					<div>
 						<label for="transaction_id">Transaction ID</label>

@@ -222,7 +222,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h2>Create Account</h2>
 
     <?php if ($success): ?>
-      <div class="alert success">Registration successful. You can now <a href="login.php">login</a>.</div>
+      <script>
+        alert('Account created successfully.');
+        window.location.href = 'login.php';
+      </script>
     <?php endif; ?>
     <?php foreach ($errors as $e): ?>
       <div class="alert error"><?php echo htmlspecialchars($e); ?></div>

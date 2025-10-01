@@ -1,3 +1,6 @@
+<?php require_once __DIR__ . '/common.php';
+requireApprovedTransaction($mysqli);
+?>
 <?php require_once __DIR__ . '/../db.php';
 if (!isset($_SESSION['user_id'])) { header('Location: login.php'); exit; }
 $userId=(int)$_SESSION['user_id'];

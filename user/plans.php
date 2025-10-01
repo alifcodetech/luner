@@ -1,5 +1,5 @@
 <?php require_once __DIR__ . '/common.php';
-
+ 
 // Handle plan selection (only for approved users)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['select_plan']) && $approved) {
   $userId = (int)$_SESSION['user_id'];
@@ -23,8 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['select_plan']) && $ap
     $stmt->close();
 
     if ($existing) {
+      $updatequery = $mysqli->prepare('UPDATE transactions SET plan_id = ? WHERE id = ?');
+      $updatequery->bind_param('ii', $planId, $existing['id']);
+      $updatequery->execute();
+      $updatequery->close();
       $tid = (int)$existing['id'];
-      header('Location: admin_pricing.php?tid=' . $tid);
+      header('Location: user_pricing.php?tid=' . $tid);
       exit;
     }
 
@@ -42,12 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['select_plan']) && $ap
 // Fetch current user plan
 $currentPlan = null; {
   $userId = (int)$_SESSION['user_id'];
-  $stmt = $mysqli->prepare('SELECT plan FROM users WHERE id = ? LIMIT 1');
+  $stmt = $mysqli->prepare('SELECT plan_id FROM users LEFT JOIN transactions ON users.id = transactions.user_id WHERE users.id = ? AND transactions.transaction_id != "" LIMIT 1');
   $stmt->bind_param('i', $userId);
   $stmt->execute();
   $res = $stmt->get_result();
+ 
   if ($row = $res->fetch_assoc()) {
-    $currentPlan = $row['plan'] ?: null;
+    $currentPlan = $row ?: null;
   }
   $stmt->close();
 }
@@ -61,11 +66,10 @@ $currentPlan = null; {
   <div class="row g-4 shadow p-2">
     <?php
     $plansRes = $mysqli->query('SELECT id, name, amount, daily_percent, duration_days FROM plans WHERE is_active = 1 ORDER BY id ASC');
-    $hasChosenPlan = isset($latestTxn['id']) || !empty($currentPlan);
+    $hasChosenPlan = !empty($currentPlan);
     while ($p = $plansRes->fetch_assoc()):
-      $selectedByTxn = isset($latestTxn['plan_id']) && (int)$latestTxn['plan_id'] === (int)$p['id'];
-      $selectedByUserPlan = $currentPlan && strcasecmp($currentPlan, $p['name']) === 0;
-      $isSelected = $selectedByTxn || $selectedByUserPlan;
+      $isSelected = $currentPlan && ((int)$currentPlan['plan_id'] === (int)$p['id']);
+
       $disableAll = $hasChosenPlan;
       $btnDisabledAttr = $disableAll ? 'disabled' : '';
       $btnClass = 'btn' . ($isSelected || $disableAll ? '' : ' primary');
