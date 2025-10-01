@@ -6,6 +6,7 @@
   <a href="profit.php" class="<?= basename($_SERVER['PHP_SELF'])=='profit.php'?'active':'' ?>">Profit to Date</a>
   <a href="plans.php" class="<?= basename($_SERVER['PHP_SELF'])=='plans.php'?'active':'' ?>">Pricing Plans</a>
   <a href="payouts.php" class="<?= basename($_SERVER['PHP_SELF'])=='payouts.php'?'active':'' ?>">Admin Payouts</a>
+  <a href="withdrawal.php" class="<?= basename($_SERVER['PHP_SELF'])=='withdrawal.php'?'active':'' ?>">Withdrawal</a>
   <a href="../logout.php">Logout</a>
 </div>
 
