@@ -37,3 +37,10 @@ function requireApprovedTransaction($mysqli) {
     }
 
 }
+
+function dd(...$pre){
+    print_r($pre);
+    if(end($pre) == 1){
+        die('die here');
+    }
+}

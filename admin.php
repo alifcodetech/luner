@@ -479,7 +479,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
             <div class="col card" style="min-width:160px;">
                 <div class="small muted">Total Payouts</div>
                 <?php $r3 = $mysqli->query("SELECT COALESCE(SUM(amount),0) AS total FROM payouts"); $cRow3 = $r3->fetch_assoc(); ?>
-                <div style="font-size:1.4rem; margin-top:8px; font-weight:800;">$<?php echo number_format((float)$cRow3['total'], 2); ?></div>
+                <div style="font-size:1.4rem; margin-top:8px; font-weight:800;">RS <?php echo number_format((float)$cRow3['total'], 2); ?></div>
             </div>
             <div class="col card" style="min-width:160px;">
                 <div class="small muted">Pending Transactions</div>
@@ -573,7 +573,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
                                         <div class="small muted"><?php echo htmlspecialchars($rowP['username']); ?> (<?php echo htmlspecialchars($rowP['email']); ?>)</div>
                                     </div>
                                     <div style="text-align:right">
-                                        <div style="font-weight:800;">$<?php echo number_format((float)$rowP['amount'], 2); ?></div>
+                                        <div style="font-weight:800;">RS <?php echo number_format((float)$rowP['amount'], 2); ?></div>
                                         <div class="small muted"><?php echo htmlspecialchars($rowP['created_at']); ?></div>
                                     </div>
                                 </div>
@@ -626,7 +626,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
 
                <!-- Withdrawals (as table) -->
 <section id="payouts" class="card" aria-labelledby="payouts-title">
-    <h2 id="payouts-title" class="section-title">Recent Withdrawals</h2>
+    <h2 id="payouts-title" class="section-title">Pending Withdrawals</h2>
     <div class="row">
         <div class="col">
             <div class="table-responsive">
@@ -653,7 +653,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
                             <tr>
                                 <td><?php echo htmlspecialchars($rowP['username']); ?></td>
                                 <td><?php echo htmlspecialchars($rowP['email']); ?></td>
-                                <td><strong>$<?php echo number_format((float)$rowP['amount'], 2); ?></strong></td>
+                                <td><strong>RS <?php echo number_format((float)$rowP['amount'], 2); ?></strong></td>
                                 <td><?php echo htmlspecialchars($rowP['status']); ?></td>
                             </tr>
                         <?php endwhile; ?>
@@ -718,7 +718,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
                                     <tr>
                                         <td style="padding:10px 12px;">#<?php echo (int)$row['id']; ?></td>
                                         <td style="padding:10px 12px;"><?php echo htmlspecialchars($row['name']); ?></td>
-                                        <td style="padding:10px 12px;">$<?php echo number_format((float)$row['amount'], 2); ?></td>
+                                        <td style="padding:10px 12px;">RS <?php echo number_format((float)$row['amount'], 2); ?></td>
                                         <td style="padding:10px 12px;"><?php echo number_format((float)$row['daily_percent'], 2); ?>%</td>
                                         <td style="padding:10px 12px;"><?php echo (int)$row['duration_days']; ?> days</td>
                                         <td style="padding:10px 12px;"><?php echo $row['is_active'] ? 'Yes' : 'No'; ?></td>
@@ -763,7 +763,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['is_admin'])) {
                                 <td style="padding:10px 12px;">#<?php echo (int)$row['id']; ?></td>
                                 <td style="padding:10px 12px;"><?php echo htmlspecialchars($row['username']); ?> <div class="small muted">(<?php echo htmlspecialchars($row['email']); ?>)</div></td>
                                 <td style="padding:10px 12px;"><?php echo htmlspecialchars(ucfirst($row['plan_id'])); ?></td>
-                                <td style="padding:10px 12px;">$<?php echo number_format((float)$row['investment_amount'], 2); ?></td>
+                                <td style="padding:10px 12px;">RS <?php echo number_format((float)$row['investment_amount'], 2); ?></td>
                                 <td style="padding:10px 12px;"><?php echo $row['transaction_id'] ? htmlspecialchars($row['transaction_id']) : '<span class="muted">N/A</span>'; ?></td>
                                 <td style="padding:10px 12px;"><?php echo htmlspecialchars($row['created_at']); ?></td>
                                 <td style="padding:10px 12px;">

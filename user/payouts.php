@@ -19,7 +19,7 @@ $res=$mysqli->query("SELECT * FROM payouts WHERE user_id=$userId ORDER BY id DES
           <?php if($res->num_rows): while($r=$res->fetch_assoc()): ?>
             <tr>
               <td>#<?= $r['id'] ?></td>
-              <td>$<?= number_format($r['amount'],2) ?></td>
+              <td>R S<?= number_format($r['amount'],2) ?></td>
               <td><?= $r['note']?:'—' ?></td>
               <td><?= $r['created_at'] ?></td>
             </tr>

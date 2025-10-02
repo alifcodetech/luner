@@ -244,30 +244,9 @@ requireApprovedTransaction($mysqli);
         <i class="bi bi-arrow-down-circle text-primary"></i> Withdraw Funds
       </h3>
       
-      <button id="withdrawBtn" class="withdraw-btn mb-3">
+      <a id="withdrawBtn" href="withdrawal.php" class="withdraw-btn mb-3 text-white">
         <i class="bi bi-wallet2 me-2"></i>Request Withdrawal
-      </button>
-      
-      <form id="withdrawForm" method="post" action="withdraw.php" class="mt-3 withdraw-form" style="display:none;">
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="name" class="form-label">Account Holder Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="account" class="form-label">Account Number</label>
-            <input type="text" class="form-control" id="account" name="account" required>
-          </div>
-        </div>
-        <div class="d-flex gap-3 mt-4">
-          <button type="submit" class="btn btn-submit">
-            <i class="bi bi-check-circle me-2"></i>Submit Withdrawal
-          </button>
-          <button type="button" class="btn btn-cancel" onclick="toggleWithdrawForm()">
-            <i class="bi bi-x-circle me-2"></i>Cancel
-          </button>
-        </div>
-      </form>
+      </a>
     </div>
 
   <?php else: ?>
@@ -281,20 +260,4 @@ requireApprovedTransaction($mysqli);
       </div>
     </div>
   <?php endif; ?>
-</div>
-
-<script>
-  function toggleWithdrawForm() {
-    const form = document.getElementById('withdrawForm');
-    const btn = document.getElementById('withdrawBtn');
-    if (form.style.display === 'none' || form.style.display === '') {
-      form.style.display = 'block';
-      btn.style.display = 'none';
-    } else {
-      form.style.display = 'none';
-      btn.style.display = 'inline-block';
-    }
-  }
-
-  document.getElementById('withdrawBtn')?.addEventListener('click', toggleWithdrawForm);
-</script>
+</div> 

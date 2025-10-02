@@ -236,21 +236,21 @@ $hasChosenPlan = !empty($currentPlan);
         $colorClass = $colorClasses[min($index, 2)]; // fallback to red if more than 3 plans
       ?>
 
-      <div class="col-md-4 mb-4">
+      <div class="col-sm-12  col-lg-4 mb-4">
         <div class="pricing-table <?= $colorClass ?>">
           <div class="pricing-label">Fixed Price</div>
           <h2 class="text-uppercase fw-bold"><?= htmlspecialchars($p['name']) ?></h2>
           <h5>Investment Plan</h5>
 
           <div class="pricing-features">
-            <div class="feature">Investment<span>$<?= number_format($p['amount']) ?></span></div>
+            <div class="feature">Investment<span>RS <?= number_format($p['amount']) ?></span></div>
             <div class="feature">Daily Return<span><?= $p['daily_percent'] ?>%</span></div>
             <div class="feature">Duration<span><?= $p['duration_days'] ?> days</span></div>
             <!-- Add more features if your DB supports them -->
           </div>
 
           <div class="price-tag">
-            <span class="symbol">$</span>
+            <span class="symbol">RS </span>
             <span class="amount"><?= number_format($p['amount'], 0, '', '') ?></span>
             <span class="after">/one-time</span>
           </div>
